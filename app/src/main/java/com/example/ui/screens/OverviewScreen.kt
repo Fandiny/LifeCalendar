@@ -2,7 +2,6 @@ package com.example.ui.screens
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -20,7 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.model.GridStyle
-import com.example.ui.components.LifeCalendarCanvas
+import com.example.ui.components.LIFE_GRID_COLUMNS
+import com.example.ui.components.LifeCalendarGrid
 import com.example.ui.theme.CurrentWeekGlow
 import com.example.ui.theme.InkFilledPast
 import com.example.ui.theme.InkFilledPastDark
@@ -47,6 +47,13 @@ fun OverviewScreen(
         }
     }
 
+    val totalYears = state.settings.targetLifespanYears
+    val totalSquares = totalYears * LIFE_GRID_COLUMNS
+    val passedWeeks = state.currentTotalWeekIndex.coerceIn(0, totalSquares)
+    val futureWeeks = (totalSquares - passedWeeks - 1).coerceAtLeast(0)
+    val currentAgeYear = passedWeeks / LIFE_GRID_COLUMNS
+    val currentWeekOfYear = (passedWeeks % LIFE_GRID_COLUMNS) + 1
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -64,8 +71,7 @@ fun OverviewScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Life Progress Quick Pill
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
                             text = "已度过 ",
@@ -73,10 +79,11 @@ fun OverviewScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "${state.stats?.passedWeeks ?: 0}",
+                            text = "$passedWeeks",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.testTag("passed_weeks_count")
                         )
                         Text(
                             text = " 周",
@@ -84,15 +91,28 @@ fun OverviewScreen(
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
+                            text = "  ·  当下 ",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = "${currentAgeYear}岁第${currentWeekOfYear}周",
+                            style = MaterialTheme.typography.bodySmall,
+                            fontWeight = FontWeight.Bold,
+                            color = CurrentWeekGlow,
+                            modifier = Modifier.testTag("current_week_badge")
+                        )
+                        Text(
                             text = "  ·  余 ",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "${state.stats?.remainingWeeks ?: 0}",
+                            text = "$futureWeeks",
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.testTag("remaining_weeks_count")
                         )
                         Text(
                             text = " 周",
@@ -102,15 +122,16 @@ fun OverviewScreen(
                     }
 
                     Text(
-                        text = "90年共 4,680 个小方块 · 已逝 ${String.format("%.1f", state.stats?.passedPercentage ?: 0f)}%",
+                        text = "${LIFE_GRID_COLUMNS}×${totalYears} 人生周历（共 $totalSquares 个小方块 · 已涂黑 ${String.format("%.1f", state.stats?.passedPercentage ?: 0f)}%）",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+                        color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.85f),
+                        modifier = Modifier.testTag("grid_summary_subtitle")
                     )
                 }
 
                 // Controls row
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     // Fit vs Zoom mode toggle
@@ -197,30 +218,33 @@ fun OverviewScreen(
             }
         }
 
-        // The 52x90 Canvas
+        // The 52x90 Grid of Squares
         Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp)
         ) {
-            LifeCalendarCanvas(
-                totalYears = state.settings.targetLifespanYears,
+            LifeCalendarGrid(
                 currentWeekIndex = state.currentTotalWeekIndex,
+                totalYears = totalYears,
+                columns = LIFE_GRID_COLUMNS,
                 gridStyle = currentGridStyle,
                 showMilestones = state.settings.showMilestonesOnGrid,
                 milestones = state.milestones,
                 weekNotes = state.weekNotes,
                 isFitToScreen = state.isFitToScreen,
+                selectedYearIndex = state.selectedWeek?.yearIndex,
+                selectedWeekIndex = state.selectedWeek?.weekIndex,
                 onWeekClick = onWeekClick
             )
         }
 
-        // Bottom Legend Bar
+        // Bottom Legend Bar showing Past (Filled), Current (Highlighted), Future (Outlined)
         Surface(
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 2.dp,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth().testTag("grid_legend_bar")
         ) {
             Row(
                 modifier = Modifier
@@ -229,8 +253,11 @@ fun OverviewScreen(
                 horizontalArrangement = Arrangement.SpaceAround,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                // Past item
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                // Past item (Filled)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.testTag("legend_past_filled")
+                ) {
                     Box(
                         modifier = Modifier
                             .size(10.dp)
@@ -238,11 +265,14 @@ fun OverviewScreen(
                             .background(if (isDark) InkFilledPastDark else InkFilledPast)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("已度过", style = MaterialTheme.typography.labelSmall)
+                    Text("过去已涂黑 ($passedWeeks)", style = MaterialTheme.typography.labelSmall)
                 }
 
-                // Current item
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                // Current item (Highlighted)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.testTag("legend_current_highlighted")
+                ) {
                     Box(
                         modifier = Modifier
                             .size(11.dp)
@@ -250,18 +280,21 @@ fun OverviewScreen(
                             .background(CurrentWeekGlow)
                     )
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("当下这一周", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
+                    Text("当前周高亮 (1)", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold)
                 }
 
-                // Future item
-                Row(verticalAlignment = Alignment.CenterVertically) {
+                // Future item (Outlined)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.testTag("legend_future_outlined")
+                ) {
                     Surface(
                         modifier = Modifier.size(10.dp),
                         shape = RoundedCornerShape(2.dp),
                         border = CardDefaults.outlinedCardBorder()
                     ) {}
                     Spacer(modifier = Modifier.width(6.dp))
-                    Text("未度过", style = MaterialTheme.typography.labelSmall)
+                    Text("未来留白边框 ($futureWeeks)", style = MaterialTheme.typography.labelSmall)
                 }
 
                 // Milestone item

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Row 1: Past weeks (filled) -->
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 27,27 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 42,27 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 57,27 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 72,27 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+
+    <!-- Row 2: Past weeks and Current week (Amber glow) -->
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 27,42 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#F8FAFC"
+        android:pathData="M 42,42 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <!-- Active week square -->
+    <path
+        android:fillColor="#F59E0B"
+        android:pathData="M 57,42 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <!-- Row 2 Col 4: Future week (subtle outline) -->
+    <path
+        android:fillColor="#334155"
+        android:strokeColor="#64748B"
+        android:strokeWidth="1.2"
+        android:pathData="M 72,42 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+
+    <!-- Row 3: Future weeks (subtle outline) -->
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#64748B"
+        android:strokeWidth="1.2"
+        android:pathData="M 27,57 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#64748B"
+        android:strokeWidth="1.2"
+        android:pathData="M 42,57 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#64748B"
+        android:strokeWidth="1.2"
+        android:pathData="M 57,57 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#64748B"
+        android:strokeWidth="1.2"
+        android:pathData="M 72,57 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+
+    <!-- Row 4: Future weeks (subtle outline) -->
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#475569"
+        android:strokeWidth="1.2"
+        android:pathData="M 27,72 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#475569"
+        android:strokeWidth="1.2"
+        android:pathData="M 42,72 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#475569"
+        android:strokeWidth="1.2"
+        android:pathData="M 57,72 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+    <path
+        android:fillColor="#1E293B"
+        android:strokeColor="#475569"
+        android:strokeWidth="1.2"
+        android:pathData="M 72,72 h 10 a 2,2 0 0 1 2,2 v 10 a 2,2 0 0 1 -2,2 h -10 a 2,2 0 0 1 -2,-2 v -10 a 2,2 0 0 1 2,-2 z" />
+</vector>

@@ -1,0 +1,6 @@
+{
+  "name": "人生日历",
+  "description": "52x90人生周历，将一生的每一周具象为方块。涂黑已逝岁月，点亮当下，感悟时光可贵。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
